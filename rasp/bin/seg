@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+from luma.core.interface.serial import spi, noop
+from luma.led_matrix.device import max7219
+from luma.core.virtual import sevensegment
+import time
+import threading
+import sys
+
+serial1 = spi(port=0, device=1, gpio=noop())
+device1 = max7219(serial1, cascaded=1, persist=True)
+seg = sevensegment(device1)
+
+if len(sys.argv) == 1:
+    text = sys.stdin.read().rstrip()
+else:
+    text = sys.argv[1]
+
+def printit():
+    threading.Timer(1, printit).start()
+    seg.text = text
+
+printit()
+

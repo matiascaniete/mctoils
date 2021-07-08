@@ -8,17 +8,29 @@ import threading
 import sys
 
 serial1 = spi(port=0, device=1, gpio=noop())
-device1 = max7219(serial1, cascaded=1, persist=True)
+device1 = max7219(serial1, cascaded=1)
 seg = sevensegment(device1)
 
-if len(sys.argv) == 1:
-    text = sys.stdin.read().rstrip()
-else:
-    text = sys.argv[1]
-
 def printit():
+    # print("printing {}".format(text))
     threading.Timer(1, printit).start()
     seg.text = text
 
-printit()
-
+if len(sys.argv) == 1:
+    k = 0
+    try:
+        buff = ''
+        while True:
+            buff += sys.stdin.read(1)
+            if buff.endswith('\n'):
+                text=buff[:-1]
+                print(text)
+                seg.text = text
+                buff = ''
+                k = k + 1
+    except KeyboardInterrupt:
+       sys.stdout.flush()
+       pass
+else:
+    text = sys.argv[1]
+    printit()

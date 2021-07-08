@@ -1,4 +1,4 @@
-# Dependencies
+## Dependencies
 
 - stow
 
@@ -8,15 +8,19 @@
 $ cd ~ && git clone https://github.com/matiascaniete/myscripts.git && cd ~/myscripts
 ```
 
+## Modules
+
+- generic
+- rasp
+
 ## Activating modules
 
 ```sh
-$ stow generic
-$ stow rasp
+$ stow <module_name>
 ```
 
 ## Deactivating modules
 
 ```sh
-$ stow -D generic
+$ stow -D <module_name>
 ```

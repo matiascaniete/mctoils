@@ -4,6 +4,7 @@ import urllib.request
 import requests
 from time import sleep
 import RPi.GPIO as GPIO
+from os.path import expanduser
 
 RED = 17
 GREEN = 27
@@ -12,7 +13,8 @@ codes = []
 
 def getsites():
     sites = []
-    filename = '/home/pi/.chsites.conf'
+    home = expanduser('~')
+    filename = '{}/.config/chsites/config'.format(home)
     print('Reading sites from {}'.format(filename))
     with open(filename, 'r') as f:
         for row in f:

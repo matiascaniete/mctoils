@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+while :
+do
+	btc
+	sleep 5m
+done;

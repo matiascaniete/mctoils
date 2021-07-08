@@ -10,5 +10,4 @@ fi
 KEY=$(cat "$KEY_FILE")
 URL="https://api.nomics.com/v1/currencies/ticker?key=$KEY&ids=BTC&interval=1d,30d&convert=EUR"
 
-VALUE=$(curl --silent "$URL" | jq -r ".[0].price")
-printf "%.1f\n" $VALUE
+curl --silent "$URL" | jq -r ".[0].price" | cut -d "." -f 1

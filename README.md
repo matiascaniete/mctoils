@@ -5,7 +5,7 @@
 ## Installing
 
 ```sh
-cd ~ && git clone https://github.com/matiascaniete/myscripts.git && cd ~/myscripts
+cd ~ && git clone git@github.com:matiascaniete/myscripts.git && cd ~/myscripts
 ```
 
 ## Modules

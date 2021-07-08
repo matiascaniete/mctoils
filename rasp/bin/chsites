@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+import urllib.request
+import requests
+from time import sleep
+import RPi.GPIO as GPIO
+
+RED = 17
+GREEN = 27
+
+codes = []
+
+def getsites():
+    sites = []
+    filename = '/home/pi/.chsites.conf'
+    print('Reading sites from {}'.format(filename))
+    with open(filename, 'r') as f:
+        for row in f:
+            sites.append(row.rstrip())
+    
+    return sites
+
+def initgpio():
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(RED, GPIO.OUT)
+    GPIO.setup(GREEN, GPIO.OUT)
+
+def green(state):
+    GPIO.output(GREEN, not state)
+
+def red(state):
+    GPIO.output(RED, not state)
+
+def on(pin):
+    GPIO.output(pin, 0)
+
+def off(pin):
+    GPIO.output(pin, 1)
+
+def blink(pin, times):
+    for i in range(times):
+        on(pin)
+        sleep(.01)
+        off(pin)
+        sleep(.1)
+
+initgpio()
+
+for i, url in enumerate(getsites()): 
+    off(GREEN)
+    print('checking site[{}] {}...'.format(i, url))
+        
+    blink(RED, 1)
+
+    try:
+        response = requests.get(url)
+        code = response.status_code
+    except:
+        code = -1
+
+    blink(GREEN, i + 1)
+    print('code: {}'.format(code))
+    codes.append(code)
+
+print(codes)
+
+if min(codes) == 200 and max(codes) == 200:
+    green(1)
+    red(0)
+    exit()
+else:
+    green(0)
+    red(1)
+    exit(255)
+

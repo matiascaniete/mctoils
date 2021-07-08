@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+
+from luma.core.interface.serial import spi, noop
+from luma.led_matrix.device import max7219
+from luma.core.virtual import sevensegment
+from PIL import Image
+from random import randint
+import time
+from multiprocessing import Process
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import requests
+import threading
+
+serial = spi(port=0, device=0, gpio=noop())
+serial1 = spi(port=0, device=1, gpio=noop())
+device = max7219(serial, cascaded=1)
+device1 = max7219(serial1, cascaded=1)
+seg = sevensegment(device1)
+
+hostName = ""
+serverPort = 8080
+
+apiKey = '87ecc47c36199d74d3eabf1a9576d0a3'
+url = "https://api.nomics.com/v1/currencies/ticker?key={}&ids=BTC&interval=1d,30d&convert=EUR".format(apiKey)
+
+def readBTC(url):
+	response = requests.get(url)
+	json = response.json()
+	print(json[0])
+	return float(json[0]['price'])
+
+
+def printit():
+  print('reading BTC price from API nomics...')
+
+  seconds = 60 * 5
+  threading.Timer(seconds, printit).start()
+  btc = readBTC(url)
+  text = ('% 8.2F' % btc)
+  print(text)
+  seg.text = text
+
+printit()
+
+class MyServer(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(bytes("Request: %s \n" % self.path, "utf-8"))
+        self.wfile.write(bytes("BTC: %8.2F \n" % readBTC(url), "utf-8"))
+
+def matrix():
+    counter = 0
+    while True:
+        image = Image.new(mode="1", size=(8, 8), color=0)
+        counter = counter + 1
+        if counter > 99999999:
+            counter = 0
+        image.putpixel((randint(0, 7), randint(0, 7)), 1)
+        device.display(image)
+        #time.sleep(.01)
+        pass
+
+def server():
+    webServer = HTTPServer((hostName, serverPort), MyServer)
+    print("Server started http://%s:%s" % (hostName, serverPort))
+
+    try:
+        webServer.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+    webServer.server_close()
+    print("Server stopped.")
+
+
+p1 = Process(name='p1', target=matrix)
+p2 = Process(name='p2', target=server)
+
+p1.start()
+p2.start()

@@ -4,21 +4,29 @@
 
 ## Installing
 
+### Clone repo
+
 ```sh
-cd ~ && git clone git@github.com:matiascaniete/myscripts.git && cd ~/myscripts
+cd ~ && git clone git@github.com:matiascaniete/mctoils.git && cd ~/mctoils
+```
+
+### Add this line at the end of .bashrc or .zshrc file
+
+```sh
+source ~/mctoils/mct.sh
 ```
 
 ## Modules
 
-- __generic__
-    - __btc__: get btc price from Nomics API.
-    - __empty-trash__: empties the trash bin.
-- __rasp__
-    - __blink__: GIO led blink.
-    - __chsites__: Checks domains responses codes to be 200.
-    - __gen__: number generator.
-    - __led__: changes the pin status of GIO.
-    - __seg__: prints text into seven segments display thru GIO.
+- **generic**
+  - **btc**: get btc price from Nomics API.
+  - **check-cert**: checks domain ssl certificate expiration date.
+- **rasp**
+  - **blink**: GIO led blink.
+  - **chsites**: Checks domains responses codes to be 200.
+  - **gen**: number generator.
+  - **led**: changes the pin status of GIO.
+  - **seg**: prints text into seven segments display thru GIO.
 
 ## Activating modules
 

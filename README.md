@@ -4,10 +4,16 @@
 
 ## Installing
 
-### Clone repo
+### Clone the repo
 
 ```sh
 cd ~ && git clone git@github.com:matiascaniete/mctoils.git && cd ~/mctoils
+```
+
+### Run the installer
+
+```sh
+cd ~/mctoils && bash ./install.sh
 ```
 
 ### Add this line at the end of .bashrc or .zshrc file

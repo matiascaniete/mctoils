@@ -34,14 +34,16 @@ source ~/mctoils/mct.sh
   - **led**: changes the pin status of GIO.
   - **seg**: prints text into seven segments display thru GIO.
 
-## Activating modules
+## Activating individual modules
 
 ```sh
+cd ~/mctoils
 stow <module_name>
 ```
 
 ## Deactivating modules
 
 ```sh
+cd ~/mctoils
 stow -D <module_name>
 ```

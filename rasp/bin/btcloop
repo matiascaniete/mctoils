@@ -19,6 +19,7 @@ animation() {
 while :
 do
 	animation
-	btc
+	BTC=$(btc)
+	printf "%8s" "$BTC"
 	sleep 5m
 done;

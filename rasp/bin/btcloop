@@ -2,18 +2,18 @@
 
 frame() {
 	echo "$1"
-	sleep .5
+	sleep .25
 }
 
 animation() {
-	frame "|"
-	frame "|-"
-	frame "|--"
-	frame "|---"
-	frame "|----"
-	frame "|-----"
-	frame "|------"
-	frame "|-------"
+	frame "-"
+	frame "--"
+	frame "---"
+	frame "----"
+	frame "-----"
+	frame "------"
+	frame "-------"
+	frame "--------"
 }
 
 while :

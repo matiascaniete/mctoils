@@ -8,6 +8,9 @@ if [ ! -f "$KEY_FILE" ]; then
 fi
 
 KEY=$(cat "$KEY_FILE")
-URL="https://api.nomics.com/v1/currencies/ticker?key=$KEY&ids=BTC&interval=1d,30d&convert=EUR"
+URL="https://api.nomics.com/v1/currencies/ticker?key=$KEY&ids=BTC&interval=1h&convert=EUR"
 
-curl --silent "$URL" | jq -r ".[0].price" | cut -d "." -f 1
+# curl --silent "$URL" | jq -r ".[0].price" | cut -d "." -f 1
+p=$(curl --silent "$URL" | jq -r ".[0].price" | tr '.' ',')
+
+printf "%.2f\n" "$p"

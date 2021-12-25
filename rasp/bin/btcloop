@@ -2,7 +2,7 @@
 
 frame() {
 	echo "$1"
-	sleep .25
+	sleep .5
 }
 
 animation() {
@@ -20,6 +20,10 @@ while :
 do
 	animation
 	BTC=$(btc)
-	printf "%8s" "$BTC"
+	A="         "
+	B=$(printf "%.1f" "$BTC")
+	#BTC_ECHO=$(printf "%8s" "$BTC_ECHO")
+	#echo "$BTC_ECHO"
+	echo "${A:0:-${#B}}$B"
 	sleep 5m
 done;

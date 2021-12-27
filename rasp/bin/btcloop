@@ -2,28 +2,73 @@
 
 frame() {
 	echo "$1"
-	sleep .5
+	sleep "0.01"
 }
 
 animation() {
 	frame "-"
-	frame "--"
-	frame "---"
-	frame "----"
-	frame "-----"
-	frame "------"
-	frame "-------"
-	frame "--------"
+	frame " -"
+	frame "  -"
+	frame "   -"
+	frame "    -"
+	frame "     -"
+	frame "      -"
+	frame "       -"
+	frame "      -"
+	frame "     -"
+	frame "    -"
+	frame "   -"
+	frame "  -"
+	frame " -"
+	frame "-"
+	frame ""
+}
+
+showtime() {
+	for i in $(seq 1 $1); do
+		date +"%H. %M. %S"
+		sleep 1
+	done;	
+}
+
+showdate() {	
+	date +"%Y.%m.%d"
+	sleep $1
+}
+
+showbtc() {
+	echo "   btc"
+	sleep 1
+
+	BTC="$1"
+	A="         "
+	B=$(printf "%.2f" "$BTC")
+	echo "${A:0:-${#B}}$B"
+	sleep "$2"
+}
+
+showload() {
+	for i in $(seq 1 $1); do
+		LOAD=$(cat /proc/loadavg | cut -f1 -d " ")
+		echo "load $LOAD"
+		sleep 1
+	done;
 }
 
 while :
 do
-	animation
 	BTC=$(btc)
-	A="         "
-	B=$(printf "%.1f" "$BTC")
-	#BTC_ECHO=$(printf "%8s" "$BTC_ECHO")
-	#echo "$BTC_ECHO"
-	echo "${A:0:-${#B}}$B"
-	sleep 5m
+	TOTAL=5
+	for i in $(seq 1 $TOTAL); do
+		animation
+		echo "$i-$TOTAL"; sleep 1
+		animation
+		showdate 10
+		animation
+		showtime 20
+		animation
+		showload 10
+		animation
+		showbtc "$BTC" 20
+	done;
 done;

@@ -25,13 +25,13 @@ animation() {
 }
 
 showtime() {
-	for i in $(seq 1 $1); do
+	for i in $(seq 1 "$1"); do
 		date +"%H. %M. %S"
 		sleep 1
-	done;	
+	done
 }
 
-showdate() {	
+showdate() {
 	date +"%Y.%m.%d"
 	sleep $1
 }
@@ -48,20 +48,20 @@ showbtc() {
 }
 
 showload() {
-	for i in $(seq 1 $1); do
+	for i in $(seq 1 "$1"); do
 		LOAD=$(cat /proc/loadavg | cut -f1 -d " ")
 		echo "load $LOAD"
 		sleep 1
-	done;
+	done
 }
 
-while :
-do
+while :; do
 	BTC=$(btc)
 	TOTAL=5
 	for i in $(seq 1 $TOTAL); do
 		animation
-		echo "$i-$TOTAL"; sleep 1
+		echo "$i-$TOTAL"
+		sleep 1
 		animation
 		showdate 10
 		animation
@@ -70,5 +70,5 @@ do
 		showload 10
 		animation
 		showbtc "$BTC" 20
-	done;
-done;
+	done
+done

@@ -59,16 +59,24 @@ title() {
 	anim-out "$1"
 }
 
+rightpad() {
+	A="        "
+	B="$1"
+	DOTS="${2:-0}"
+	for i in $(seq 1 $DOTS); do
+		A=" $A"
+	done
+	echo "${A:0:-${#B}}$B"
+}
+
 showbtc() {
-
-	anim-in "   btc"
+	anim-in "$(rightpad "btc val")"
+	rightpad "btc val"
 	sleep 1
-	anim-out "   btc"
+	anim-out "$(rightpad "btc val")"
 
-	BTC="$1"
-	A="         "
-	B=$(LC_NUMERIC="en_US.UTF-8" printf "%.2f" "$BTC")
-	C="${A:0:-${#B}}$B"
+	B=$(LC_NUMERIC="en_US.UTF-8" printf "%.2f" "$1")
+	C="$(rightpad "$B" 1)"
 
 	anim-in "$C"
 	sleep "$2"
@@ -111,15 +119,11 @@ while :; do
 	BTC=$(btc)
 	TOTAL=5
 	for i in $(seq 1 $TOTAL); do
-		animation
-		title "$i-$TOTAL" 1
-		animation
+		title "$(rightpad "iter $i-$TOTAL")" 1
 		showdate 10
-		animation
-		showtime 20
-		animation
+		showtime 10
 		showload 10
-		animation
-		showbtc "$BTC" 20
+		showbtc "$BTC" 10
 	done
 done
+

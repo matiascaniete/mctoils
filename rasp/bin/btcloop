@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+ANIM_DELAY=0.01
+
 frame() {
 	echo "$1"
-	sleep "0.01"
+	sleep $ANIM_DELAY
 }
 
 animation() {
@@ -24,35 +26,85 @@ animation() {
 	frame ""
 }
 
+get-time() {
+	date +"%H. %M. %S"
+}
+
+get-date() {
+	date +"%Y.%m.%d"
+}
+
+get-load() {
+	cat /proc/loadavg | cut -f1 -d " "
+}
+
 showtime() {
+	anim-in "$(get-time)"
 	for i in $(seq 1 "$1"); do
-		date +"%H. %M. %S"
+		get-time
 		sleep 1
 	done
+	anim-out "$(get-time)"
 }
 
 showdate() {
-	date +"%Y.%m.%d"
-	sleep $1
+	anim-in "$(get-date)"
+	sleep "$1"
+	anim-out "$(get-date)"
+}
+
+title() {
+	anim-in "$1"
+	sleep "$2"
+	anim-out "$1"
 }
 
 showbtc() {
-	echo "   btc"
+
+	anim-in "   btc"
 	sleep 1
+	anim-out "   btc"
 
 	BTC="$1"
 	A="         "
-	B=$(printf "%.2f" "$BTC")
-	echo "${A:0:-${#B}}$B"
+	B=$(LC_NUMERIC="en_US.UTF-8" printf "%.2f" "$BTC")
+	C="${A:0:-${#B}}$B"
+
+	anim-in "$C"
 	sleep "$2"
+	anim-out "$C"
 }
 
 showload() {
+	anim-in "load $(get-load)"
 	for i in $(seq 1 "$1"); do
-		LOAD=$(cat /proc/loadavg | cut -f1 -d " ")
-		echo "load $LOAD"
+		echo "load $(get-load)"
 		sleep 1
 	done
+	anim-out "load $(get-load)"
+}
+
+anim-in() {
+	TEXT="$1"
+
+	echo ""
+	sleep $ANIM_DELAY
+	for i in $(seq 1 ${#TEXT}); do
+		echo "$TEXT" | cut -b "1-$i"
+		sleep $ANIM_DELAY
+	done
+}
+
+anim-out() {
+	TEXT="$1"
+
+	for i in $(seq ${#TEXT} -1 1); do
+		echo "$TEXT" | cut -b "1-$i"
+		sleep $ANIM_DELAY
+	done
+
+	echo ""
+	sleep $ANIM_DELAY
 }
 
 while :; do
@@ -60,8 +112,7 @@ while :; do
 	TOTAL=5
 	for i in $(seq 1 $TOTAL); do
 		animation
-		echo "$i-$TOTAL"
-		sleep 1
+		title "$i-$TOTAL" 1
 		animation
 		showdate 10
 		animation

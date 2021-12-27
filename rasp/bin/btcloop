@@ -70,10 +70,10 @@ rightpad() {
 }
 
 showbtc() {
-	anim-in "$(rightpad "btc val")"
-	rightpad "btc val"
+	anim-in "$(rightpad "BTC VAL")"
+	rightpad "BTC VAL"
 	sleep 1
-	anim-out "$(rightpad "btc val")"
+	anim-out "$(rightpad "BTC VAL")"
 
 	B=$(LC_NUMERIC="en_US.UTF-8" printf "%.2f" "$1")
 	C="$(rightpad "$B" 1)"
@@ -84,12 +84,12 @@ showbtc() {
 }
 
 showload() {
-	anim-in "load $(get-load)"
+	anim-in "LOAd $(get-load)"
 	for i in $(seq 1 "$1"); do
-		echo "load $(get-load)"
+		echo "LOAd $(get-load)"
 		sleep 1
 	done
-	anim-out "load $(get-load)"
+	anim-out "LOAd $(get-load)"
 }
 
 anim-in() {
@@ -119,7 +119,7 @@ while :; do
 	BTC=$(btc)
 	TOTAL=5
 	for i in $(seq 1 $TOTAL); do
-		title "$(rightpad "iter $i-$TOTAL")" 1
+		title "$(rightpad "ITER $i-$TOTAL")" 1
 		showdate 10
 		showtime 10
 		showload 10

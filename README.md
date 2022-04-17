@@ -24,14 +24,10 @@ source ~/mctoils/mct.sh
 
 ## Modules
 
-- **generic**
-  - **btc**: get btc price from Nomics API.
-  - **check-cert**: checks domain ssl certificate expiration date.
 - **rasp**
   - **blink**: GIO led blink.
   - **chsites**: Checks domains responses codes to be 200.
   - **gen**: number generator.
-  - **led**: changes the pin status of GIO.
   - **seg**: prints text into seven segments display thru GIO.
 
 ## Activating individual modules
